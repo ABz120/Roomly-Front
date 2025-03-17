@@ -213,6 +213,51 @@ export const hotelDetailsStyles = StyleSheet.create({
       fontSize: 18,
       fontWeight: 'bold',
     },
+    imageContainer: {
+      position: 'relative', 
+    },
+    favoriteButton: {
+      position: 'absolute', 
+      top: 10, 
+      right: 10, 
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+      borderRadius: 20, 
+      padding: 5, 
+    },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    calendarContainer: {
+      backgroundColor: 'white',
+      borderRadius: 10,
+      padding: 20,
+      width: '90%',
+    },
+    buttonRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 20,
+    },
+    button: {
+      padding: 10,
+      borderRadius: 5,
+      alignItems: 'center',
+      flex: 1,
+      marginHorizontal: 5,
+    },
+    confirmButton: {
+      backgroundColor: '#21421E',
+    },
+    closeButton: {
+      backgroundColor: '#900020',
+    },
+    buttonText: {
+      color: 'white',
+      fontSize: 16,
+    },
   });
 
 export const searchStyles = StyleSheet.create({
