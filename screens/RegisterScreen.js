@@ -8,8 +8,11 @@ const RegisterScreen = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleRegister = () => {
-    // Обработка регистрации
+    // Логика регистрации 
     console.log('Register with:', email, password);
+
+    // Переход на MainTabs
+    navigation.replace('MainTabs');
   };
 
   return (

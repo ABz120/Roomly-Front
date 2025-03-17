@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "MyNewProject",
-    "slug": "MyNewProject",
-    "version": "1.0.0",
+    "name": "Roomly",
+    "slug": "roomly",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/Roomly_icon_4k.png",
+    "icon": "./assets/Roomly_icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/Roomly_icon_4k.png",
+      "image": "./assets/Roomly_icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,21 +17,22 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/Roomly_icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.abz120.MyNewProject"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/Roomly_icon.png"
     },
     "plugins": [
       "expo-font"
     ],
     "extra": {
       "eas": {
-        "projectId": "f0dcec96-1b8b-456e-a101-39e5e3df311d"
+        "projectId": "396037d1-2ec5-40e7-b625-4185baf977cd"
       }
-    }
+    },
+    "owner": "abz120"
   }
 }

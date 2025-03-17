@@ -12,14 +12,9 @@ const LoginScreen = ({ navigation }) => {
     // Заглушка для входа (без проверки данных)
     console.log('Login with:', email, password);
 
-    // Устанавливаем состояние авторизации
-    setIsLoggedIn(true);
-
+    
     // Переход на корневой навигатор (Tab.Navigator)
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'MainTabs' }], 
-    });
+    navigation.replace('MainTabs');
   };
 
   return (

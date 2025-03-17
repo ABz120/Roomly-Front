@@ -135,6 +135,12 @@ function RootNavigator() {
           options={{ headerShown: false }}
         />
       )}
+      {/* явное определение для MainTabs */}
+      <Stack.Screen 
+        name="MainTabs" 
+        component={MainTabs} 
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }
