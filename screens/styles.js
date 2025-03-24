@@ -342,6 +342,39 @@ export const searchStyles = StyleSheet.create({
     searchIcon: {
       marginRight: 8,
     },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    calendarContainer: {
+      backgroundColor: '#fff',
+      borderRadius: 10,
+      padding: 20,
+      width: '90%',
+    },
+    buttonRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 20,
+    },
+    button: {
+      padding: 10,
+      borderRadius: 5,
+      width: '45%',
+      alignItems: 'center',
+    },
+    confirmButton: {
+      backgroundColor: '#21421E',
+    },
+    closeButton: {
+      backgroundColor: '#21421E',
+    },
+    buttonText: {
+      color: '#fff',
+      fontWeight: 'bold',
+    },
   });
 
 export const profileStyles = StyleSheet.create({
@@ -461,8 +494,65 @@ export const profileStyles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 3,
       },
+      favoriteContent: {
+        flex: 1,
+        marginLeft: 12,
+        justifyContent: 'center',
+      },
+      favoriteTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        fontFamily: 'Poppins_600SemiBold',
+      },
+      favoriteLocation: {
+        fontSize: 12,
+        color: '#888',
+        marginTop: 4,
+        fontFamily: 'Poppins_400Regular',
+      },
+      favoritePrice: {
+        fontSize: 14,
+        color: '#21421E',
+        marginTop: 8,
+        fontFamily: 'Poppins_600SemiBold',
+      },
+      favoriteContainer: {
+        flex: 1,
+        backgroundColor: '#fff',
+        paddingHorizontal: 16,
+      },
+      favoriteHeader: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 24,
+        fontFamily: 'Poppins_600SemiBold',
+      },
+      emptyContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 40,
+      },
+      emptyText: {
+        fontSize: 18,
+        color: '#888',
+        marginTop: 20,
+        fontFamily: 'Poppins_500Medium',
+      },
+      favoriteCard: {
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        marginBottom: 16,
+        padding: 12,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+        alignItems: 'center', // Выравниваем элементы по центру
+      },
       favoriteImage: {
-        width: 80,
+        width: 100,
         height: 80,
         borderRadius: 8,
       },
@@ -487,6 +577,134 @@ export const profileStyles = StyleSheet.create({
         color: '#21421E',
         marginTop: 8,
         fontFamily: 'Poppins_600SemiBold',
+      },
+      favoriteIcon: {
+        padding: 8,
+        marginLeft: 8,
+      },
+      bookingActions: {
+        flexDirection: 'column', 
+        alignItems: 'flex-end', 
+        marginTop: 10,
+      },
+      bookingActionButton: {
+        backgroundColor: '#21421E',
+        padding: 8,
+        borderRadius: 5,
+        marginVertical: 5, 
+        width: 120, 
+        alignItems: 'center',
+      },
+      bookingActionCancelButton: {
+        backgroundColor: '#900020',
+        padding: 8,
+        borderRadius: 5,
+        marginVertical: 5, 
+        width: 120, 
+        alignItems: 'center',
+      },
+      bookingActionText: {
+        color: '#fff',
+        fontSize: 15,
+        textAlign: 'center',
+      },
+      modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      },
+      calendarContainer: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 20,
+        width: '90%',
+      },
+      buttonRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 20,
+      },
+      bookingButton: {
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        flex: 1,
+        marginHorizontal: 5,
+      },
+      bookingConfirmButton: {
+        backgroundColor: '#21421E',
+      },
+      bookingCloseButton: {
+        backgroundColor: '#900020',
+      },
+      bookingButtonText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: 'bold',
+      },
+      favoriteStatus: {
+        fontSize: 12,
+        marginTop: 8,
+        fontFamily: 'Poppins_500Medium',
+      },
+      favoriteStatusActive: {
+        color: '#21421E', // Зеленый для активных бронирований
+      },
+      favoriteStatusCancelled: {
+        color: '#900020', // Красный для отмененных бронирований
+      },
+      favoriteDates: {
+        fontSize: 12,
+        color: '#888',
+        marginTop: 4,
+        fontFamily: 'Poppins_400Regular',
+      },
+      menuButton: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        zIndex: 1,
+      },
+      menuOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      menuButton: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        zIndex: 1,
+      },
+      menuContainer: {
+        position: 'absolute',
+        top: 40, 
+        right: 10,
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        padding: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+      },
+      menuItem: {
+        padding: 10,
+      },
+      menuItemText: {
+        fontSize: 16,
+        color: '#21421E',
+      },
+      bookingActionDeleteButton: {
+        backgroundColor: '#900020',
+        padding: 8,
+        borderRadius: 5,
+        marginVertical: 5, 
+        width: 120, 
+        alignItems: 'center',
       },
   });
 

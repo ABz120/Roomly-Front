@@ -12,6 +12,9 @@ const PopularOffersScreen = ({ navigation }) => {
       price: '₽5,000/ночь',
       image: require('../assets/hotel1.jpg'),
       discount: 'Скидка 20%',
+      rating: String('4.5'),
+      beds: 2,
+      rooms: 1,
     },
     {
       id: 2,
@@ -20,6 +23,9 @@ const PopularOffersScreen = ({ navigation }) => {
       price: '₽7,500/ночь',
       image: require('../assets/hotel2.jpg'),
       discount: 'Акция: 3=2',
+      rating: String('4.5'),
+      beds: 2,
+      rooms: 1,
     },
     {
       id: 3,
@@ -28,6 +34,9 @@ const PopularOffersScreen = ({ navigation }) => {
       price: '₽4,500/ночь',
       image: require('../assets/hotel1.jpg'),
       discount: 'Скидка 15%',
+      rating: String('4.5'),
+      beds: 2,
+      rooms: 1,
     },
     {
       id: 4,
@@ -36,6 +45,9 @@ const PopularOffersScreen = ({ navigation }) => {
       price: '₽6,000/ночь',
       image: require('../assets/hotel2.jpg'),
       discount: 'Акция: 4=3',
+      rating: String('4.5'),
+      beds: 2,
+      rooms: 1,
     },
   ];
 

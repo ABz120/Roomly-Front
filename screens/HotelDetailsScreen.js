@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, ScrollView, Image, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import CalendarPicker from 'react-native-calendar-picker'; // Импортируем календарь
+import CalendarPicker from 'react-native-calendar-picker';
 import { hotelDetailsStyles } from './styles';
+import { AuthContext } from '../AuthContext'; // Импортируем контекст
 
 const HotelDetailsScreen = ({ route }) => {
   const { hotel } = route.params;
 
-  // Состояние для избранного
-  const [isFavorite, setIsFavorite] = useState(false);
+  // Используем контекст для избранного и бронирований
+  const { favorites, toggleFavorite, addBooking } = useContext(AuthContext);
+  const isFavorite = favorites.some(item => item.id === hotel.id); // Проверяем, есть ли отель в избранном
 
   // Состояние для управления видимостью окна выбора дат
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
@@ -16,11 +18,6 @@ const HotelDetailsScreen = ({ route }) => {
   // Состояние для выбранных дат
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-
-  // Функция для переключения состояния избранного
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-  };
 
   // Функция для открытия окна выбора дат
   const openDatePicker = () => {
@@ -45,7 +42,7 @@ const HotelDetailsScreen = ({ route }) => {
   // Функция для подтверждения бронирования
   const confirmBooking = () => {
     if (startDate && endDate) {
-      alert(`Бронирование подтверждено с ${startDate.toString()} по ${endDate.toString()}`);
+      addBooking(hotel, startDate, endDate); // Добавляем бронирование в историю
       closeDatePicker();
     } else {
       alert('Пожалуйста, выберите даты бронирования.');
@@ -61,7 +58,7 @@ const HotelDetailsScreen = ({ route }) => {
           {/* Кнопка избранного */}
           <TouchableOpacity
             style={hotelDetailsStyles.favoriteButton}
-            onPress={toggleFavorite}
+            onPress={() => toggleFavorite(hotel)} // Используем контекст
           >
             <Ionicons
               name={isFavorite ? 'heart' : 'heart-outline'}

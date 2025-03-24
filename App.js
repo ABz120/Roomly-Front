@@ -7,7 +7,7 @@ import { StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
 
-// Импортируйте экраны
+//  экраны
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -17,8 +17,9 @@ import RegisterScreen from './screens/RegisterScreen';
 import PopularOffersScreen from './screens/PopularOffersScreen';
 import FavoritesScreen from './screens/FavoritesScreen';
 import BookingHistoryScreen from './screens/BookingHistoryScreen';
+import SearchResultsScreen from './screens/SearchResultsScreen'; 
 
-// Импортируйте контекст
+//  контекст
 import { AuthProvider, AuthContext } from './AuthContext';
 
 const Tab = createBottomTabNavigator();
@@ -42,6 +43,24 @@ function HomeStack() {
         name="PopularOffers" 
         component={PopularOffersScreen} 
         options={{ title: 'Популярные предложения' }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+// Стек для поиска
+function SearchStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="SearchMain" 
+        component={SearchScreen} 
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen 
+        name="SearchResults" 
+        component={SearchResultsScreen} 
+        options={{ title: 'Результаты поиска' }}
       />
     </Stack.Navigator>
   );
@@ -110,7 +129,7 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Главная" component={HomeStack} />
-      <Tab.Screen name="Поиск" component={SearchScreen} />
+      <Tab.Screen name="Поиск" component={SearchStack} /> 
       <Tab.Screen name="Профиль" component={ProfileStack} />
     </Tab.Navigator>
   );
@@ -121,27 +140,23 @@ function RootNavigator() {
   const { isLoggedIn } = useContext(AuthContext);
 
   return (
-    <Stack.Navigator>
-      {isLoggedIn ? (
-        <Stack.Screen 
-          name="MainTabs" 
-          component={MainTabs} 
-          options={{ headerShown: false }}
-        />
-      ) : (
-        <Stack.Screen 
-          name="Auth" 
-          component={AuthStack} 
-          options={{ headerShown: false }}
-        />
-      )}
-      {/* явное определение для MainTabs */}
-      <Stack.Screen 
-        name="MainTabs" 
-        component={MainTabs} 
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
+    <NavigationContainer>
+      <Stack.Navigator>
+        
+          <Stack.Screen 
+            name="MainTabs" 
+            component={MainTabs} 
+            options={{ headerShown: false }}
+          />
+        
+          <Stack.Screen 
+            name="Auth" 
+            component={AuthStack} 
+            options={{ headerShown: false }}
+          />
+        
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -157,9 +172,7 @@ export default function App() {
   return (
     <AuthProvider>
       <StatusBar backgroundColor="#21421E" barStyle="light-content" />
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
+      <RootNavigator />
     </AuthProvider>
   );
 }
