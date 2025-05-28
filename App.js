@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StatusBar } from 'react-native';
+import { StatusBar, ActivityIndicator, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//  экраны
+// Экраны
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -17,9 +18,9 @@ import RegisterScreen from './screens/RegisterScreen';
 import PopularOffersScreen from './screens/PopularOffersScreen';
 import FavoritesScreen from './screens/FavoritesScreen';
 import BookingHistoryScreen from './screens/BookingHistoryScreen';
-import SearchResultsScreen from './screens/SearchResultsScreen'; 
+import SearchResultsScreen from './screens/SearchResultsScreen';
 
-//  контекст
+// Контекст
 import { AuthProvider, AuthContext } from './AuthContext';
 
 const Tab = createBottomTabNavigator();
@@ -137,24 +138,50 @@ function MainTabs() {
 
 // Корневой навигатор
 function RootNavigator() {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  // Проверка токена при запуске
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        if (token) {
+          setIsLoggedIn(true);
+        }
+      } catch (error) {
+        console.error('Error checking auth:', error);
+      } finally {
+        setIsCheckingAuth(false);
+      }
+    };
+    checkAuth();
+  }, [setIsLoggedIn]);
+
+  if (isCheckingAuth) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#21421E" />
+      </View>
+    );
+  }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        
+      <Stack.Navigator initialRouteName={isLoggedIn ? 'MainTabs' : 'Auth'}>
+        {isLoggedIn ? (
           <Stack.Screen 
             name="MainTabs" 
             component={MainTabs} 
             options={{ headerShown: false }}
           />
-        
+        ) : (
           <Stack.Screen 
             name="Auth" 
             component={AuthStack} 
             options={{ headerShown: false }}
           />
-        
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -166,7 +193,11 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return null;
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#21421E" />
+      </View>
+    );
   }
 
   return (

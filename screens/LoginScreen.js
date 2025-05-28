@@ -1,31 +1,54 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { loginStyles } from './styles';
-import { AuthContext } from '../AuthContext'; // Импортируем контекст
+import { AuthContext } from '../AuthContext';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { setIsLoggedIn } = useContext(AuthContext); // Используем контекст
+  const [loading, setLoading] = useState(false);
+  const { setIsLoggedIn } = useContext(AuthContext);
 
-  const handleLogin = () => {
-    // Заглушка для входа (без проверки данных)
-    console.log('Login with:', email, password);
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Ошибка', 'Пожалуйста, заполните все поля');
+      return;
+    }
 
-    // Устанавливаем состояние авторизации
-    setIsLoggedIn(true);
+    setLoading(true);
 
-    // Переход на корневой навигатор (Tab.Navigator)
-    navigation.replace('MainTabs'); // Используем replace вместо navigate
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/users/login', {
+        email,
+        password,
+      });
+
+      console.log('Login successful:', response.data);
+
+      // Сохраняем токен, если API его возвращает
+      if (response.data.token) {
+        await AsyncStorage.setItem('token', response.data.token);
+      }
+
+      setIsLoggedIn(true);
+      navigation.replace('MainTabs');
+    } catch (error) {
+      console.error('Login error:', error.response?.data || error.message);
+      Alert.alert('Ошибка входа', error.response?.data?.message || 'Неверный email или пароль');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={loginStyles.container}
     >
       <Text style={loginStyles.title}>Вход</Text>
-      
+
       <TextInput
         style={loginStyles.input}
         placeholder="Email"
@@ -34,7 +57,7 @@ const LoginScreen = ({ navigation }) => {
         autoCapitalize="none"
         keyboardType="email-address"
       />
-      
+
       <TextInput
         style={loginStyles.input}
         placeholder="Пароль"
@@ -42,12 +65,18 @@ const LoginScreen = ({ navigation }) => {
         onChangeText={setPassword}
         secureTextEntry
       />
-      
-      <TouchableOpacity style={loginStyles.button} onPress={handleLogin}>
-        <Text style={loginStyles.buttonText}>Войти</Text>
+
+      <TouchableOpacity
+        style={[loginStyles.button, loading && { opacity: 0.6 }]}
+        onPress={handleLogin}
+        disabled={loading}
+      >
+        <Text style={loginStyles.buttonText}>
+          {loading ? 'Загрузка...' : 'Войти'}
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         style={loginStyles.linkContainer}
         onPress={() => navigation.navigate('Register')}
       >
