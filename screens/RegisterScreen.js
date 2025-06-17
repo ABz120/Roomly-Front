@@ -1,27 +1,61 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { loginStyles } from './styles';
+import { AuthContext } from '../AuthContext';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { setIsLoggedIn } = useContext(AuthContext);
 
-  const handleRegister = () => {
-    // Логика регистрации 
-    console.log('Register with:', email, password);
+  const handleRegister = async () => {
+    if (!email || !password || !confirmPassword) {
+      Alert.alert('Ошибка', 'Пожалуйста, заполните все поля');
+      return;
+    }
 
-    // Переход на MainTabs
-    navigation.replace('MainTabs');
+    if (password !== confirmPassword) {
+      Alert.alert('Ошибка', 'Пароли не совпадают');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post('http://10.0.2.2:8000/api/users/register', {
+        email,
+        password,
+        role: 'regular', // Фиксированная роль
+      });
+
+      console.log('Registration successful:', response.data);
+
+      // Сохраняем токен, если API его возвращает
+      if (response.data.token) {
+        await AsyncStorage.setItem('token', response.data.token);
+      }
+
+      setIsLoggedIn(true);
+      navigation.replace('MainTabs');
+    } catch (error) {
+      console.error('Registration error:', error.response?.data || error.message);
+      Alert.alert('Ошибка регистрации', error.response?.data?.message || 'Что-то пошло не так');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={loginStyles.container}
     >
       <Text style={loginStyles.title}>Регистрация</Text>
-      
+
       <TextInput
         style={loginStyles.input}
         placeholder="Email"
@@ -30,7 +64,7 @@ const RegisterScreen = ({ navigation }) => {
         autoCapitalize="none"
         keyboardType="email-address"
       />
-      
+
       <TextInput
         style={loginStyles.input}
         placeholder="Пароль"
@@ -38,7 +72,7 @@ const RegisterScreen = ({ navigation }) => {
         onChangeText={setPassword}
         secureTextEntry
       />
-      
+
       <TextInput
         style={loginStyles.input}
         placeholder="Подтвердите пароль"
@@ -46,14 +80,20 @@ const RegisterScreen = ({ navigation }) => {
         onChangeText={setConfirmPassword}
         secureTextEntry
       />
-      
-      <TouchableOpacity style={loginStyles.button} onPress={handleRegister}>
-        <Text style={loginStyles.buttonText}>Зарегистрироваться</Text>
+
+      <TouchableOpacity
+        style={[loginStyles.button, loading && { opacity: 0.6 }]}
+        onPress={handleRegister}
+        disabled={loading}
+      >
+        <Text style={loginStyles.buttonText}>
+          {loading ? 'Загрузка...' : 'Зарегистрироваться'}
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         style={loginStyles.linkContainer}
-        onPress={() => navigation.goBack()}
+        onPress={() => navigation.navigate('Login')}
       >
         <Text style={loginStyles.linkText}>Уже есть аккаунт? Войти</Text>
       </TouchableOpacity>
