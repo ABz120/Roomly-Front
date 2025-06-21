@@ -5,7 +5,7 @@ import { AuthContext } from '../AuthContext';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const RegisterScreen = ({ navigation }) => {
+const BusinessRegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -29,10 +29,10 @@ const RegisterScreen = ({ navigation }) => {
       const response = await axios.post('http://10.0.2.2:8000/api/users/register', {
         email,
         password,
-        role: 'regular',
+        role: 'business',
       });
 
-      console.log('Registration successful:', response.data);
+      console.log('Business registration successful:', response.data);
 
       if (response.data.id && response.data.role) {
         const tokenResponse = await axios.post('http://10.0.2.2:8000/api/users/login', {
@@ -44,15 +44,15 @@ const RegisterScreen = ({ navigation }) => {
           await AsyncStorage.setItem('userRole', response.data.role);
           setIsLoggedIn(true);
           setUserRole(response.data.role);
-          navigation.replace('RegularTabs');
+          navigation.replace('BusinessTabs');
         } else {
           Alert.alert('Ошибка', 'Не удалось получить токен после регистрации');
         }
       } else {
-        Alert.alert('Ошибка', 'Не удалось зарегистрировать аккаунт');
+        Alert.alert('Ошибка', 'Не удалось зарегистрировать бизнес-аккаунт');
       }
     } catch (error) {
-      console.error('Registration error:', error.response?.data || error.message);
+      console.error('Business registration error:', error.response?.data || error.message);
       const errorMessage = error.response?.data?.detail === 'Email already registered'
         ? 'Этот email уже зарегистрирован'
         : 'Что-то пошло не так';
@@ -67,7 +67,7 @@ const RegisterScreen = ({ navigation }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={loginStyles.container}
     >
-      <Text style={loginStyles.title}>Регистрация</Text>
+      <Text style={loginStyles.title}>Регистрация бизнес-аккаунта</Text>
 
       <TextInput
         style={loginStyles.input}
@@ -100,7 +100,7 @@ const RegisterScreen = ({ navigation }) => {
         disabled={loading}
       >
         <Text style={loginStyles.buttonText}>
-          {loading ? 'Загрузка...' : 'Зарегистрироваться'}
+          {loading ? 'Загрузка...' : 'Зарегистрировать бизнес-аккаунт'}
         </Text>
       </TouchableOpacity>
 
@@ -114,4 +114,4 @@ const RegisterScreen = ({ navigation }) => {
   );
 };
 
-export default RegisterScreen;
+export default BusinessRegisterScreen;

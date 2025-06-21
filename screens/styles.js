@@ -140,125 +140,133 @@ export const homeStyles = StyleSheet.create({
   });
 
 export const hotelDetailsStyles = StyleSheet.create({
-    wrapper: {
-      flex: 1,
-    },
-    container: {
-      flex: 1,
-      padding: 16,
-      backgroundColor: '#fff',
-    },
-    locationContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: 16,
-    },
-    icon: {
-      marginRight: 5,
-    },
-    locationText: {
-      fontSize: 16,
-      color: '#21421E',
-    },
-    image: {
-      width: '100%',
-      height: 200,
-      borderRadius: 10,
-      marginBottom: 16,
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 8,
-    },
-    description: {
-      fontSize: 16,
-      marginBottom: 16,
-      lineHeight: 24,
-    },
-    price: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: '#21421E',
-      marginBottom: 16,
-    },
-    details: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginBottom: 16,
-    },
-    detailItem: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    detailText: {
-      fontSize: 14,
-      color: '#555',
-      marginLeft: 8,
-    },
-    buttonContainer: {
-      position: 'absolute',
-      bottom: 20,
-      left: 20,
-      right: 20,
-    },
-    bookButton: {
-      backgroundColor: '#21421E',
-      paddingVertical: 14,
-      borderRadius: 10,
-      alignItems: 'center',
-    },
-    buttonText: {
-      color: '#fff',
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-    imageContainer: {
-      position: 'relative', 
-    },
-    favoriteButton: {
-      position: 'absolute', 
-      top: 10, 
-      right: 10, 
-      backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-      borderRadius: 20, 
-      padding: 5, 
-    },
-    modalContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    calendarContainer: {
-      backgroundColor: 'white',
-      borderRadius: 10,
-      padding: 20,
-      width: '90%',
-    },
-    buttonRow: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginTop: 20,
-    },
-    button: {
-      padding: 10,
-      borderRadius: 5,
-      alignItems: 'center',
-      flex: 1,
-      marginHorizontal: 5,
-    },
-    confirmButton: {
-      backgroundColor: '#21421E',
-    },
-    closeButton: {
-      backgroundColor: '#900020',
-    },
-    buttonText: {
-      color: 'white',
-      fontSize: 16,
-    },
-  });
+  wrapper: {
+    flex: 1,
+    backgroundColor: '#FFFFFF', // Явно задаем белый фон для всего экрана
+  },
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#FFFFFF', // Убедимся, что контейнер тоже белый
+  },
+  locationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  locationText: {
+    fontSize: 16,
+    color: '#21421E',
+  },
+  image: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  description: {
+    fontSize: 16,
+    marginBottom: 16,
+    lineHeight: 24,
+  },
+  price: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#21421E',
+    textAlign: 'center',
+  },
+  details: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  detailItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  detailText: {
+    fontSize: 14,
+    color: '#555',
+    marginLeft: 8,
+  },
+  buttonContainer: {
+    padding: 10,
+    alignItems: 'center',
+    marginBottom: 20,
+    backgroundColor: 'transparent', // Убираем возможный серый фон
+  },
+  bookButton: {
+    backgroundColor: '#21421E',
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: '80%',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  imageContainer: {
+    position: 'relative',
+  },
+  favoriteButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    borderRadius: 20,
+    padding: 5,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  calendarContainer: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    width: '90%',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  button: {
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    flex: 1,
+    marginHorizontal: 5,
+  },
+  confirmButton: {
+    backgroundColor: '#21421E',
+  },
+  closeButton: {
+    backgroundColor: '#900020',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  priceContainer: {
+    padding: 10,
+    alignItems: 'center',
+    backgroundColor: 'transparent', // Убираем белый фон, если он мешает
+    marginBottom: 10,
+  },
+});
 
 export const searchStyles = StyleSheet.create({
     container: {
@@ -810,3 +818,87 @@ export const loginStyles = StyleSheet.create({
       fontFamily: 'Poppins_500Medium',
     },
   });
+
+  export const ManagementStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 15,
+    margin: 15,
+    padding: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 8,
+  },
+  cardImage: {
+    width: '100%',
+    height: 160,
+    borderRadius: 10,
+  },
+  cardContent: {
+    padding: 10,
+  },
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  cardLocation: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 5,
+  },
+  cardDescription: {
+    fontSize: 14,
+    color: '#444',
+    marginTop: 5,
+  },
+  cardRating: {
+    fontSize: 14,
+    color: '#FFD700',
+    marginTop: 5,
+  },
+  addButton: {
+    position: 'absolute',
+    right: 20,
+    top: 10,
+    backgroundColor: '#21421E',
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#FFF',
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    width: '100%',
+    height: 45,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginBottom: 15,
+  },
+  noHotelsText: {
+    textAlign: 'center',
+    marginTop: 50,
+    fontSize: 18,
+    color: '#666',
+  },
+});

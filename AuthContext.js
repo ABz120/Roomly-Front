@@ -2,28 +2,26 @@ import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { Alert } from 'react-native';
-import debounce from 'lodash/debounce'; // Установите lodash: npm install lodash
+import debounce from 'lodash/debounce';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Изменено на false
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState(null); // Состояние для роли пользователя
   const [favorites, setFavorites] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Проверка токена при старте
+  // Проверка токена и роли при старте
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
-        if (token) {
-          // Опционально: валидация токена через API
-          // const response = await axios.get('http://127.0.0.1:8000/api/users/validate-token', {
-          //   headers: { Authorization: `Bearer ${token}` },
-          // });
+        const role = await AsyncStorage.getItem('userRole');
+        if (token && role) {
           setIsLoggedIn(true);
-          // Загрузка favorites и bookings с сервера, если API это поддерживает
+          setUserRole(role);
           await loadServerData(token);
         }
       } catch (error) {
@@ -36,23 +34,20 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  // Загрузка данных с сервера (пример)
+  // Загрузка данных с сервера
   const loadServerData = async (token) => {
     try {
-      // Пример запроса для favorites
       const favoritesResponse = await axios.get('http://127.0.0.1:8000/api/favorites', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFavorites(favoritesResponse.data || []);
 
-      // Пример запроса для bookings
       const bookingsResponse = await axios.get('http://127.0.0.1:8000/api/users/bookings', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setBookings(bookingsResponse.data || []);
     } catch (error) {
       console.error('Error loading server data:', error);
-      // Загрузка локальных данных как запасной вариант
       await loadLocalData();
     }
   };
@@ -110,7 +105,6 @@ export const AuthProvider = ({ children }) => {
     };
     setBookings((prev) => [...prev, newBooking]);
 
-    // Отправка на сервер, если API поддерживает
     if (isLoggedIn) {
       try {
         const token = await AsyncStorage.getItem('token');
@@ -134,7 +128,6 @@ export const AuthProvider = ({ children }) => {
       )
     );
 
-    // Отправка на сервер, если API поддерживает
     if (isLoggedIn) {
       try {
         const token = await AsyncStorage.getItem('token');
@@ -156,7 +149,6 @@ export const AuthProvider = ({ children }) => {
       prevBookings.filter((booking) => booking.id !== bookingId)
     );
 
-    // Отправка на сервер, если API поддерживает
     if (isLoggedIn) {
       try {
         const token = await AsyncStorage.getItem('token');
@@ -180,7 +172,6 @@ export const AuthProvider = ({ children }) => {
       )
     );
 
-    // Отправка на сервер, если API поддерживает
     if (isLoggedIn) {
       try {
         const token = await AsyncStorage.getItem('token');
@@ -205,7 +196,6 @@ export const AuthProvider = ({ children }) => {
         : [...prev, hotel];
     });
 
-    // Отправка на сервер, если API поддерживает
     if (isLoggedIn) {
       try {
         const token = await AsyncStorage.getItem('token');
@@ -231,9 +221,11 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('userRole'); // Удаляем роль
       setIsLoggedIn(false);
-      setFavorites([]); // Очистка избранного
-      setBookings([]); // Очистка бронирований
+      setUserRole(null); // Сбрасываем роль
+      setFavorites([]);
+      setBookings([]);
       await AsyncStorage.removeItem('favorites');
       await AsyncStorage.removeItem('bookings');
     } catch (error) {
@@ -247,6 +239,8 @@ export const AuthProvider = ({ children }) => {
       value={{
         isLoggedIn,
         setIsLoggedIn,
+        userRole, // Добавляем роль в контекст
+        setUserRole, // Добавляем функцию установки роли
         favorites,
         setFavorites,
         bookings,

@@ -9,7 +9,7 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { setIsLoggedIn, setUserRole } = useContext(AuthContext);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -27,16 +27,34 @@ const LoginScreen = ({ navigation }) => {
 
       console.log('Login successful:', response.data);
 
-      // Сохраняем токен, если API его возвращает
-      if (response.data.token) {
-        await AsyncStorage.setItem('token', response.data.token);
-      }
+      if (response.data.access_token) {
+        await AsyncStorage.setItem('token', response.data.access_token);
 
-      setIsLoggedIn(true);
-      navigation.replace('MainTabs');
+        // Запрос для получения роли пользователя
+        const userResponse = await axios.get('http://10.0.2.2:8000/api/users/me', {
+          headers: { Authorization: `Bearer ${response.data.access_token}` },
+        });
+
+        const role = userResponse.data.role;
+        if (role) {
+          await AsyncStorage.setItem('userRole', role);
+          setIsLoggedIn(true);
+          setUserRole(role);
+
+          if (role === 'business') {
+            navigation.replace('BusinessTabs');
+          } else {
+            navigation.replace('RegularTabs');
+          }
+        } else {
+          Alert.alert('Ошибка', 'Не удалось определить роль пользователя');
+        }
+      } else {
+        Alert.alert('Ошибка', 'Неверные данные для входа');
+      }
     } catch (error) {
       console.error('Login error:', error.response?.data || error.message);
-      Alert.alert('Ошибка входа', error.response?.data?.message || 'Неверный email или пароль');
+      Alert.alert('Ошибка входа', error.response?.data?.detail || 'Неверный email или пароль');
     } finally {
       setLoading(false);
     }
@@ -81,6 +99,13 @@ const LoginScreen = ({ navigation }) => {
         onPress={() => navigation.navigate('Register')}
       >
         <Text style={loginStyles.linkText}>Ещё нет аккаунта? Зарегистрироваться</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={loginStyles.linkContainer}
+        onPress={() => navigation.navigate('BusinessRegister')}
+      >
+        <Text style={loginStyles.linkText}>Создать бизнес-аккаунт?</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );
